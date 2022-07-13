@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import iziToast from 'izitoast';
+import { AlumnoService } from 'src/app/services/alumno.service';
 
 @Component({
   selector: 'app-create-alumno',
@@ -15,6 +16,7 @@ export class CreateAlumnoComponent implements OnInit {
   form : FormGroup;
 
   constructor(
+    private _alumnoServices : AlumnoService,
     private _router : Router,
     private _fb : FormBuilder
   ) {
@@ -36,16 +38,27 @@ export class CreateAlumnoComponent implements OnInit {
         dni : this.form.get('dni')?.value
       }
 
-      console.log(this.alumno);
+      this._alumnoServices.saveAlumno(this.alumno).subscribe(
+        response => {
 
-      iziToast.show({
-        title: 'CORRECTO',
-        titleColor : '#008509',
-        message: 'Se registro de manera correcta al alumno',
-        position : 'topRight'
-      });
+          console.log(this.alumno);
 
-      this._router.navigate(['panel/alumno'])
+          iziToast.show({
+            title: 'CORRECTO',
+            titleColor : '#008509',
+            message: 'Se registro de manera correcta al alumno',
+            position : 'topRight'
+          });
+    
+          this._router.navigate(['panel/alumno'])
+        },
+        error => {
+          console.log(error);
+          
+        }
+      )
+
+
       
     }else{
       iziToast.show({

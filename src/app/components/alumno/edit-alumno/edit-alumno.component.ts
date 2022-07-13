@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-alumno',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditAlumnoComponent implements OnInit {
 
-  constructor() { }
+  form : FormGroup;
+  
+  constructor(
+    private _router : Router,
+    private _fb : FormBuilder
+  ) {
+    this.form = this._fb.group({
+      apellidos : ['', Validators.required],
+      nombres : ['', Validators.required],
+      dni : ['', Validators.required]
+    })
+   }
 
   ngOnInit(): void {
+  }
+
+  actualizarAlumno(){
+
   }
 
 }
